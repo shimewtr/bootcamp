@@ -20,7 +20,8 @@ class Notification < ApplicationRecord
     trainee_report: 10,
     moved_up_event_waiting_user: 11,
     create_pages: 12,
-    following_report: 13
+    following_report: 13,
+    check_and_comment: 14
   }
 
   scope :reads, lambda {
@@ -34,6 +35,7 @@ class Notification < ApplicationRecord
   scope :with_avatar, -> { preload(sender: { avatar_attachment: :blob }) }
   scope :reads_with_avatar, -> { reads.with_avatar }
   scope :unreads_with_avatar, -> { unreads.with_avatar.limit(99) }
+  scope :checked_unreads, -> { where(read: false, kind: :checked) }
 
   def self.came_comment(comment, receiver, message)
     Notification.create!(
