@@ -196,4 +196,16 @@ class Notification < ApplicationRecord
   def self.into_one
     select(:path).group(:path).maximum(:created_at)
   end
+
+  def notified_path
+    self[:path]
+  end
+
+  def notified_model
+    notified_path.split('/')[1].classify.constantize
+  end
+
+  def notified_id
+    notified_path.split('/')[2]
+  end
 end
