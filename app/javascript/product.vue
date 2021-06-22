@@ -89,9 +89,16 @@
 <script>
 import ProductChecker from './product_checker'
 export default {
-  props: ['product', 'currentUserId', 'isMentor', 'latestProductSubmittedJust5days', 'latestProductSubmittedJust6days', 'latestProductSubmittedOver7days'],
   components: {
     'product-checker': ProductChecker
+  },
+  props: {
+    product: { type: Object, required: true },
+    isMentor: { type: Boolean, required: true },
+    currentUserId: { type: String, required: true },
+    latestProductSubmittedJust5days: { type: String, required: false, default: null },
+    latestProductSubmittedJust6days: { type: String, required: false, default: null },
+    latestProductSubmittedOver7days: { type: String, required: false, default: null },
   },
   computed: {
     roleClass() {
