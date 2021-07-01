@@ -21,13 +21,8 @@ class QuestionsController < ApplicationController
     @tags = questions.all_tags
     questions = params[:practice_id].present? ? questions.where(practice_id: params[:practice_id]) : questions
     questions = questions.tagged_with(params[:tag]) if params[:tag]
-    questions =
-      if params[:solved].present?
-        questions.includes(:answers).order('answers.updated_at DESC')
-      else
-        questions.order(updated_at: :desc, id: :desc)
-      end
-    @questions = questions.preload(%i[practice answers]).with_avatar.page(params[:page])
+    questions = questions.includes(:practice, :answers).order(updated_at: :desc, id: :desc)
+    @questions = questions.with_avatar.page(params[:page])
     @questions_property = questions_property
   end
 
